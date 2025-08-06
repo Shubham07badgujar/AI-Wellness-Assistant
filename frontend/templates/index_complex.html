@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌟 AI Wellness Assistant</title>
+    
+    <!-- Simple CSS Framework -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #2196F3;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --info-color: #17a2b8;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .main-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            max-width: 1200px;
+        }
+
+        .header {
+            background: var(--primary-color);
+            color: white;
+            padding: 20px;
+            border-radius: 15px 15px 0 0;
+            text-align: center;
+        }
+
+        .nav-tabs {
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .nav-tabs .nav-link {
+            border: none;
+            color: #666;
+            font-weight: 500;
+            padding: 15px 20px;
+        }
+
+        .nav-tabs .nav-link.active {
+            background: var(--primary-color);
+            color: white;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+        }
+
+        .btn-primary:hover {
+            background: #45a049;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+            padding: 12px;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.25);
+        }
+
+        .quick-action-btn {
+            background: white;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .quick-action-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .alert {
+            border-radius: 8px;
+            border: none;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .history-item {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .severity-indicator {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .severity-low { background: #d4edda; color: #155724; }
+        .severity-medium { background: #fff3cd; color: #856404; }
+        .severity-high { background: #f8d7da; color: #721c24; }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            border-radius: 0 0 15px 15px;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="main-container">
+            
+            <!-- Header -->
+            <div class="header">
+                <h1><i class="fas fa-heartbeat me-3"></i>AI Wellness Assistant</h1>
+                <p class="mb-0">Simple, effective health tracking</p>
+            </div>
+
+            <!-- Navigation -->
+            <ul class="nav nav-tabs" id="mainTabs" role="tablist">
+                <li class="nav-item">
+                    <button class="nav-link active" id="dashboard-tab" data-bs-toggle="tab" data-bs-target="#dashboard">
+                        <i class="fas fa-home me-2"></i>Dashboard
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" id="track-tab" data-bs-toggle="tab" data-bs-target="#track">
+                        <i class="fas fa-plus me-2"></i>Track Habit
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" id="advice-tab" data-bs-toggle="tab" data-bs-target="#advice">
+                        <i class="fas fa-robot me-2"></i>AI Advice
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" id="symptoms-tab" data-bs-toggle="tab" data-bs-target="#symptoms">
+                        <i class="fas fa-stethoscope me-2"></i>Symptoms
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" id="history-tab" data-bs-toggle="tab" data-bs-target="#history">
+                        <i class="fas fa-history me-2"></i>History
+                    </button>
+                </li>
+            </ul>
+
+            <!-- Tab Content -->
+            <div class="tab-content p-4">
+                
+                <!-- Dashboard Tab -->
+                <div class="tab-pane fade show active" id="dashboard">
+                    <div class="row">
+                        
+                        <!-- Summary Card -->
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header bg-primary text-white">
+                                    <h5><i class="fas fa-chart-pie me-2"></i>Today's Summary</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div id="summary-content">
+                                        <div class="loading">
+                                            <i class="fas fa-spinner fa-spin"></i> Loading your data...
+                                        </div>
+                                    </div>
+                                    <button onclick="loadSummary()" class="btn btn-primary w-100 mt-3">
+                                        <i class="fas fa-refresh me-2"></i>Refresh
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Actions -->
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header bg-info text-white">
+                                    <h5><i class="fas fa-bolt me-2"></i>Quick Track</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row g-2">
+                                        <div class="col-6">
+                                            <div class="quick-action-btn" onclick="quickTrack('sleep')">
+                                                <i class="fas fa-bed fa-2x mb-2"></i>
+                                                <div>Sleep</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="quick-action-btn" onclick="quickTrack('water')">
+                                                <i class="fas fa-tint fa-2x mb-2"></i>
+                                                <div>Water</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="quick-action-btn" onclick="quickTrack('exercise')">
+                                                <i class="fas fa-dumbbell fa-2x mb-2"></i>
+                                                <div>Exercise</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="quick-action-btn" onclick="quickTrack('mood')">
+                                                <i class="fas fa-smile fa-2x mb-2"></i>
+                                                <div>Mood</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stats Row -->
+                        <div class="col-12">
+                            <div class="row g-3 mt-2">
+                                <div class="col-md-3">
+                                    <div class="stat-card">
+                                        <i class="fas fa-calendar-day fa-2x text-primary mb-2"></i>
+                                        <h4 class="text-primary">7</h4>
+                                        <small class="text-muted">Days Tracked</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="stat-card">
+                                        <i class="fas fa-target fa-2x text-success mb-2"></i>
+                                        <h4 class="text-success">85%</h4>
+                                        <small class="text-muted">Goal Progress</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="stat-card">
+                                        <i class="fas fa-robot fa-2x text-info mb-2"></i>
+                                        <h4 class="text-info">12</h4>
+                                        <small class="text-muted">AI Consultations</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="stat-card">
+                                        <i class="fas fa-star fa-2x text-warning mb-2"></i>
+                                        <h4 class="text-warning">8.5</h4>
+                                        <small class="text-muted">Wellness Score</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Track Habit Tab -->
+                <div class="tab-pane fade" id="track">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-header bg-success text-white">
+                                    <h5><i class="fas fa-plus-circle me-2"></i>Track New Habit</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="trackForm">
+                                        <div class="mb-3">
+                                            <label class="form-label">Habit Type</label>
+                                            <select class="form-control" id="habitType" required>
+                                                <option value="">Choose a habit...</option>
+                                                <option value="sleep">💤 Sleep</option>
+                                                <option value="water">💧 Water Intake</option>
+                                                <option value="exercise">🏃‍♂️ Exercise</option>
+                                                <option value="mood">😊 Mood</option>
+                                                <option value="meals">🍽️ Meals</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Value</label>
+                                            <input type="text" class="form-control" id="habitValue" 
+                                                   placeholder="e.g., 8 hours, 2 liters, 30 minutes" required>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Notes (Optional)</label>
+                                            <textarea class="form-control" id="habitNotes" rows="3" 
+                                                      placeholder="How are you feeling? Any observations..."></textarea>
+                                        </div>
+                                        
+                                        <button type="submit" class="btn btn-success w-100">
+                                            <i class="fas fa-save me-2"></i>Save Habit
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Advice Tab -->
+                <div class="tab-pane fade" id="advice">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-header bg-primary text-white">
+                                    <h5><i class="fas fa-robot me-2"></i>AI Wellness Assistant</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        Ask me anything about wellness, health habits, or get personalized advice!
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Your Question</label>
+                                        <textarea class="form-control" id="adviceQuestion" rows="4" 
+                                                  placeholder="How can I improve my sleep quality?"></textarea>
+                                    </div>
+                                    
+                                    <button onclick="getAdvice()" class="btn btn-primary">
+                                        <i class="fas fa-paper-plane me-2"></i>Get Advice
+                                    </button>
+                                    
+                                    <div id="adviceResponse" class="mt-4" style="display: none;">
+                                        <div class="alert alert-success">
+                                            <h6><i class="fas fa-lightbulb me-2"></i>AI Recommendation:</h6>
+                                            <div id="adviceContent"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header bg-secondary text-white">
+                                    <h6><i class="fas fa-question-circle me-2"></i>Quick Questions</h6>
+                                </div>
+                                <div class="card-body">
+                                    <button class="btn btn-outline-primary btn-sm w-100 mb-2" onclick="askQuickQuestion('sleep')">
+                                        Better Sleep Tips
+                                    </button>
+                                    <button class="btn btn-outline-primary btn-sm w-100 mb-2" onclick="askQuickQuestion('exercise')">
+                                        Exercise Routine
+                                    </button>
+                                    <button class="btn btn-outline-primary btn-sm w-100 mb-2" onclick="askQuickQuestion('nutrition')">
+                                        Nutrition Advice
+                                    </button>
+                                    <button class="btn btn-outline-primary btn-sm w-100" onclick="askQuickQuestion('stress')">
+                                        Stress Management
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Symptoms Tab -->
+                <div class="tab-pane fade" id="symptoms">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+                            <div class="alert alert-warning">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                <strong>Medical Disclaimer:</strong> This tool provides general information only. 
+                                For serious symptoms, consult a healthcare professional immediately.
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card-header bg-warning text-dark">
+                                    <h5><i class="fas fa-stethoscope me-2"></i>Symptom Checker</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="symptomForm">
+                                        <div class="mb-3">
+                                            <label class="form-label">Describe your symptoms</label>
+                                            <textarea class="form-control" id="symptomDescription" rows="4" 
+                                                      placeholder="Please describe what you're experiencing..." required></textarea>
+                                        </div>
+                                        
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Severity (1-10)</label>
+                                                    <input type="range" class="form-range" id="severityRange" 
+                                                           min="1" max="10" value="5" oninput="updateSeverity(this.value)">
+                                                    <div class="text-center">
+                                                        <span id="severityDisplay" class="severity-indicator severity-medium">
+                                                            Moderate (5/10)
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Duration</label>
+                                                    <select class="form-control" id="symptomDuration">
+                                                        <option value="">Select duration...</option>
+                                                        <option value="minutes">Few minutes</option>
+                                                        <option value="hours">Few hours</option>
+                                                        <option value="days">Few days</option>
+                                                        <option value="weeks">Few weeks</option>
+                                                        <option value="months">Longer than a month</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <button type="submit" class="btn btn-warning w-100">
+                                            <i class="fas fa-search me-2"></i>Analyze Symptoms
+                                        </button>
+                                    </form>
+                                    
+                                    <div id="symptomResponse" class="mt-4" style="display: none;">
+                                        <div class="alert alert-info">
+                                            <h6><i class="fas fa-clipboard-check me-2"></i>Analysis Result:</h6>
+                                            <div id="symptomContent"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- History Tab -->
+                <div class="tab-pane fade" id="history">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-header bg-info text-white">
+                                    <h5><i class="fas fa-history me-2"></i>Recent Activities</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div id="historyList">
+                                        <div class="history-item">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <i class="fas fa-bed text-primary me-2"></i>
+                                                    <strong>Sleep:</strong> 8 hours
+                                                    <small class="text-muted d-block">Great night's sleep!</small>
+                                                </div>
+                                                <small class="text-muted">2 hours ago</small>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="history-item">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <i class="fas fa-tint text-info me-2"></i>
+                                                    <strong>Water:</strong> 2.5 liters
+                                                </div>
+                                                <small class="text-muted">5 hours ago</small>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="history-item">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <i class="fas fa-dumbbell text-success me-2"></i>
+                                                    <strong>Exercise:</strong> 45 minutes
+                                                    <small class="text-muted d-block">Morning jog</small>
+                                                </div>
+                                                <small class="text-muted">1 day ago</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <button class="btn btn-outline-info w-100 mt-3" onclick="loadHistory()">
+                                        <i class="fas fa-download me-2"></i>Load More
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header bg-secondary text-white">
+                                    <h6><i class="fas fa-chart-bar me-2"></i>This Week</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-between">
+                                            <span>Sleep Avg:</span>
+                                            <strong>7.8 hours</strong>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-between">
+                                            <span>Water Avg:</span>
+                                            <strong>2.3L daily</strong>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-between">
+                                            <span>Exercise:</span>
+                                            <strong>4x this week</strong>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-between">
+                                            <span>Mood Score:</span>
+                                            <strong>8.2/10</strong>
+                                        </div>
+                                    </div>
+                                    
+                                    <button class="btn btn-outline-secondary btn-sm w-100" onclick="exportData()">
+                                        <i class="fas fa-download me-2"></i>Export Data
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Footer -->
+            <div class="footer">
+                <p class="mb-2">
+                    <i class="fas fa-heart text-danger me-2"></i>
+                    Made with love for better health and well-being
+                </p>
+                <small class="text-muted">Supporting UN Sustainable Development Goal 3 • Privacy-first design</small>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed top-0 end-0 p-3" id="toastContainer"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Simple JavaScript -->
+    <script>
+        // Show toast notification
+        function showToast(message, type = 'success') {
+            const toastContainer = document.getElementById('toastContainer');
+            const toastId = 'toast-' + Date.now();
+            
+            const bgClass = type === 'success' ? 'bg-success' : 
+                           type === 'error' ? 'bg-danger' : 
+                           type === 'warning' ? 'bg-warning' : 'bg-info';
+            
+            const toastHTML = `
+                <div id="${toastId}" class="toast ${bgClass} text-white" role="alert">
+                    <div class="toast-body">
+                        <i class="fas fa-${type === 'success' ? 'check' : type === 'error' ? 'exclamation-triangle' : 'info'}-circle me-2"></i>
+                        ${message}
+                    </div>
+                </div>
+            `;
+            
+            toastContainer.insertAdjacentHTML('beforeend', toastHTML);
+            const toast = new bootstrap.Toast(document.getElementById(toastId));
+            toast.show();
+            
+            // Remove toast after it's hidden
+            document.getElementById(toastId).addEventListener('hidden.bs.toast', function() {
+                this.remove();
+            });
+        }
+
+        // Quick track function
+        function quickTrack(habitType) {
+            // Switch to track tab
+            const trackTab = document.getElementById('track-tab');
+            trackTab.click();
+            
+            // Pre-select habit type
+            setTimeout(() => {
+                document.getElementById('habitType').value = habitType;
+                document.getElementById('habitValue').focus();
+            }, 100);
+            
+            showToast(`Ready to track your ${habitType}!`, 'info');
+        }
+
+        // Load summary data
+        function loadSummary() {
+            const summaryContent = document.getElementById('summary-content');
+            summaryContent.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div>';
+            
+            setTimeout(() => {
+                summaryContent.innerHTML = `
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <div class="d-flex justify-content-between">
+                                <span><i class="fas fa-bed text-primary me-1"></i>Sleep:</span>
+                                <strong>7.8h</strong>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="d-flex justify-content-between">
+                                <span><i class="fas fa-tint text-info me-1"></i>Water:</span>
+                                <strong>2.3L</strong>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="d-flex justify-content-between">
+                                <span><i class="fas fa-dumbbell text-success me-1"></i>Exercise:</span>
+                                <strong>45min</strong>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="d-flex justify-content-between">
+                                <span><i class="fas fa-smile text-warning me-1"></i>Mood:</span>
+                                <strong>8.2/10</strong>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                showToast('Summary updated!', 'success');
+            }, 1000);
+        }
+
+        // Handle track form submission
+        document.getElementById('trackForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const habitType = document.getElementById('habitType').value;
+            const habitValue = document.getElementById('habitValue').value;
+            const habitNotes = document.getElementById('habitNotes').value;
+            
+            if (!habitType || !habitValue) {
+                showToast('Please fill in all required fields', 'error');
+                return;
+            }
+            
+            // Simulate saving
+            const submitBtn = this.querySelector('button[type="submit"]');
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saving...';
+            submitBtn.disabled = true;
+            
+            setTimeout(() => {
+                showToast(`${habitType.charAt(0).toUpperCase() + habitType.slice(1)} tracked successfully!`, 'success');
+                this.reset();
+                submitBtn.innerHTML = '<i class="fas fa-save me-2"></i>Save Habit';
+                submitBtn.disabled = false;
+            }, 1500);
+        });
+
+        // Get AI advice
+        function getAdvice() {
+            const question = document.getElementById('adviceQuestion').value.trim();
+            if (!question) {
+                showToast('Please enter your question', 'error');
+                return;
+            }
+            
+            const responseDiv = document.getElementById('adviceResponse');
+            const contentDiv = document.getElementById('adviceContent');
+            
+            contentDiv.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>AI is thinking...';
+            responseDiv.style.display = 'block';
+            
+            setTimeout(() => {
+                contentDiv.innerHTML = `
+                    <p>Based on your question about "${question}", here are some personalized recommendations:</p>
+                    <ul>
+                        <li>Maintain a consistent daily routine</li>
+                        <li>Focus on gradual, sustainable changes</li>
+                        <li>Track your progress regularly</li>
+                        <li>Stay hydrated and get adequate sleep</li>
+                    </ul>
+                    <p><small><em>Remember: This is general guidance. Consult healthcare professionals for specific medical advice.</em></small></p>
+                `;
+                showToast('AI advice generated!', 'success');
+            }, 2000);
+        }
+
+        // Quick question function
+        function askQuickQuestion(topic) {
+            const questions = {
+                sleep: 'How can I improve my sleep quality?',
+                exercise: 'What\'s a good exercise routine for beginners?',
+                nutrition: 'How can I eat healthier?',
+                stress: 'How can I manage stress better?'
+            };
+            
+            document.getElementById('adviceQuestion').value = questions[topic];
+            getAdvice();
+        }
+
+        // Update severity display
+        function updateSeverity(value) {
+            const display = document.getElementById('severityDisplay');
+            let severity, className;
+            
+            if (value <= 3) {
+                severity = 'Mild';
+                className = 'severity-low';
+            } else if (value <= 6) {
+                severity = 'Moderate';
+                className = 'severity-medium';
+            } else {
+                severity = 'Severe';
+                className = 'severity-high';
+            }
+            
+            display.textContent = `${severity} (${value}/10)`;
+            display.className = `severity-indicator ${className}`;
+        }
+
+        // Handle symptom form
+        document.getElementById('symptomForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const description = document.getElementById('symptomDescription').value.trim();
+            const severity = document.getElementById('severityRange').value;
+            const duration = document.getElementById('symptomDuration').value;
+            
+            if (!description) {
+                showToast('Please describe your symptoms', 'error');
+                return;
+            }
+            
+            const responseDiv = document.getElementById('symptomResponse');
+            const contentDiv = document.getElementById('symptomContent');
+            
+            contentDiv.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Analyzing symptoms...';
+            responseDiv.style.display = 'block';
+            
+            setTimeout(() => {
+                let alertType = 'info';
+                let advice = '';
+                
+                if (severity > 7) {
+                    alertType = 'warning';
+                    advice = '<strong>High severity detected.</strong> We recommend consulting a healthcare professional promptly.';
+                } else if (severity > 4) {
+                    advice = 'Moderate symptoms. Monitor closely and consider medical consultation if symptoms persist.';
+                } else {
+                    alertType = 'success';
+                    advice = 'Mild symptoms. Rest, stay hydrated, and monitor your condition.';
+                }
+                
+                responseDiv.className = `alert alert-${alertType} mt-4`;
+                contentDiv.innerHTML = `
+                    <p>${advice}</p>
+                    <p><small><em>This is general guidance only. For persistent or severe symptoms, please consult a healthcare professional.</em></small></p>
+                `;
+                
+                showToast('Symptom analysis complete', 'info');
+            }, 2000);
+        });
+
+        // Load history
+        function loadHistory() {
+            showToast('Loading more history...', 'info');
+            // Simulate loading more data
+            setTimeout(() => {
+                showToast('History loaded!', 'success');
+            }, 1000);
+        }
+
+        // Export data
+        function exportData() {
+            showToast('Preparing data export...', 'info');
+            setTimeout(() => {
+                showToast('Data exported successfully!', 'success');
+            }, 1500);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSummary();
+            showToast('Welcome to AI Wellness Assistant!', 'success');
+        });
+    </script>
+</body>
+</html>

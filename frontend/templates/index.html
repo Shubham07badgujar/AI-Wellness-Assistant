@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌟 AI Wellness Assistant</title>
+    
+    <!-- Simple, clean CSS -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Navigation */
+        .nav-tabs {
+            display: flex;
+            background: white;
+            border-radius: 12px;
+            padding: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+
+        .nav-tab {
+            flex: 1;
+            background: none;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #666;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            min-width: 120px;
+        }
+
+        .nav-tab.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-weight: 500;
+        }
+
+        .nav-tab:hover:not(.active) {
+            background: #f8f9ff;
+            color: #667eea;
+        }
+
+        /* Content Cards */
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            border: 1px solid #e1e8ed;
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card h3 i {
+            color: #667eea;
+        }
+
+        /* Grid Layouts */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        /* Buttons */
+        .btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #28a745, #20c997);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #dc3545, #fd7e14);
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+        }
+
+        .quick-btn {
+            background: white;
+            border: 2px solid #e1e8ed;
+            padding: 20px 15px;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .quick-btn:hover {
+            border-color: #667eea;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .quick-btn i {
+            font-size: 2rem;
+            color: #667eea;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .quick-btn span {
+            font-weight: 500;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Summary Items */
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #e1e8ed;
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .summary-label {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .summary-value {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        /* Stat Cards */
+        .stat-card {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea10, #764ba210);
+            border-radius: 12px;
+            border: 1px solid #e1e8ed;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* History Table */
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .history-table th,
+        .history-table td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #e1e8ed;
+        }
+
+        .history-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .history-table tr:hover {
+            background: #f8f9ff;
+        }
+
+        /* Messages */
+        .alert {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        /* Loading States */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .loading i {
+            font-size: 2rem;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .nav-tabs {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .nav-tab {
+                min-width: auto;
+            }
+
+            .grid-2,
+            .grid-3,
+            .grid-4 {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Notification Toast */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            color: #333;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            border-left: 4px solid #667eea;
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            border-left-color: #28a745;
+        }
+
+        .toast.error {
+            border-left-color: #dc3545;
+        }
+    </style>
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1><i class="fas fa-heartbeat"></i> AI Wellness Assistant</h1>
+            <p>Your simple path to better health and well-being</p>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav-tabs">
+            <button class="nav-tab active" data-tab="dashboard">
+                <i class="fas fa-chart-line"></i> Dashboard
+            </button>
+            <button class="nav-tab" data-tab="track">
+                <i class="fas fa-plus-circle"></i> Track Habit
+            </button>
+            <button class="nav-tab" data-tab="advice">
+                <i class="fas fa-robot"></i> AI Advice
+            </button>
+            <button class="nav-tab" data-tab="symptoms">
+                <i class="fas fa-stethoscope"></i> Symptoms
+            </button>
+            <button class="nav-tab" data-tab="history">
+                <i class="fas fa-history"></i> History
+            </button>
+        </nav>
+
+        <!-- Main Content -->
+        <main>
+            
+            <!-- Dashboard Tab -->
+            <div id="dashboard" class="tab-content active">
+                <div class="grid-2">
+                    <!-- Habit Summary -->
+                    <div class="card">
+                        <h3><i class="fas fa-chart-pie"></i> Today's Summary</h3>
+                        <div id="summary-content">
+                            <div class="summary-item">
+                                <span class="summary-label">Sleep</span>
+                                <span class="summary-value">8 hours</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Water</span>
+                                <span class="summary-value">2.5 liters</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Exercise</span>
+                                <span class="summary-value">45 minutes</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Mood</span>
+                                <span class="summary-value">8/10</span>
+                            </div>
+                        </div>
+                        <button onclick="loadSummary()" class="btn" style="margin-top: 20px;">
+                            <i class="fas fa-refresh"></i> Refresh
+                        </button>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="card">
+                        <h3><i class="fas fa-bolt"></i> Quick Track</h3>
+                        <div class="quick-actions">
+                            <a href="#" class="quick-btn" onclick="quickTrack('sleep')">
+                                <i class="fas fa-bed"></i>
+                                <span>Sleep</span>
+                            </a>
+                            <a href="#" class="quick-btn" onclick="quickTrack('water')">
+                                <i class="fas fa-tint"></i>
+                                <span>Water</span>
+                            </a>
+                            <a href="#" class="quick-btn" onclick="quickTrack('exercise')">
+                                <i class="fas fa-dumbbell"></i>
+                                <span>Exercise</span>
+                            </a>
+                            <a href="#" class="quick-btn" onclick="quickTrack('mood')">
+                                <i class="fas fa-smile"></i>
+                                <span>Mood</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Statistics -->
+                <div class="card">
+                    <h3><i class="fas fa-chart-bar"></i> Weekly Statistics</h3>
+                    <div class="grid-4">
+                        <div class="stat-card">
+                            <div class="stat-number">7</div>
+                            <div class="stat-label">Days Tracked</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">85%</div>
+                            <div class="stat-label">Goals Met</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">12</div>
+                            <div class="stat-label">AI Chats</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">9.2</div>
+                            <div class="stat-label">Health Score</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Track Habit Tab -->
+            <div id="track" class="tab-content">
+                <div class="card" style="max-width: 600px; margin: 0 auto;">
+                    <h3><i class="fas fa-plus-circle"></i> Track New Habit</h3>
+                    
+                    <form id="track-form">
+                        <div class="form-group">
+                            <label for="habit-type">Habit Type</label>
+                            <select id="habit-type" name="habit-type" required>
+                                <option value="">Select a habit...</option>
+                                <option value="sleep">💤 Sleep</option>
+                                <option value="water">💧 Water Intake</option>
+                                <option value="exercise">🏃‍♂️ Exercise</option>
+                                <option value="mood">😊 Mood</option>
+                                <option value="meals">🍽️ Meals</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="habit-value">Value</label>
+                            <input type="text" id="habit-value" name="habit-value" 
+                                   placeholder="e.g., 8 hours, 2 liters, 30 minutes" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="habit-notes">Notes (Optional)</label>
+                            <textarea id="habit-notes" name="habit-notes" rows="3" 
+                                      placeholder="How are you feeling? Any observations..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save"></i> Save Habit
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- AI Advice Tab -->
+            <div id="advice" class="tab-content">
+                <div class="card" style="max-width: 800px; margin: 0 auto;">
+                    <h3><i class="fas fa-robot"></i> AI Wellness Assistant</h3>
+                    
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Ask me anything about wellness, health habits, or get personalized advice!</span>
+                    </div>
+                    
+                    <form id="advice-form">
+                        <div class="form-group">
+                            <label for="advice-question">Your Question</label>
+                            <textarea id="advice-question" name="advice-question" rows="4" 
+                                      placeholder="How can I improve my sleep quality?" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn">
+                            <i class="fas fa-paper-plane"></i> Ask AI
+                        </button>
+                    </form>
+                    
+                    <div id="advice-response" style="display: none; margin-top: 30px;">
+                        <h4><i class="fas fa-robot"></i> AI Response</h4>
+                        <div id="advice-content" style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 10px;">
+                            <!-- AI response will appear here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Symptoms Tab -->
+            <div id="symptoms" class="tab-content">
+                <div class="card" style="max-width: 700px; margin: 0 auto;">
+                    <h3><i class="fas fa-stethoscope"></i> Symptom Checker</h3>
+                    
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span><strong>Medical Disclaimer:</strong> This tool provides general information only. For serious symptoms, consult a healthcare professional immediately.</span>
+                    </div>
+                    
+                    <form id="symptom-form">
+                        <div class="form-group">
+                            <label for="symptom-description">Describe your symptoms</label>
+                            <textarea id="symptom-description" name="symptom-description" rows="4" 
+                                      placeholder="Please describe what you're experiencing..." required></textarea>
+                        </div>
+                        
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label for="symptom-severity">Severity (1-10)</label>
+                                <input type="range" id="symptom-severity" name="symptom-severity" 
+                                       min="1" max="10" value="5">
+                                <div style="text-align: center; margin-top: 5px; color: #667eea; font-weight: 500;">
+                                    <span id="severity-display">5</span>/10
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="symptom-duration">Duration</label>
+                                <select id="symptom-duration" name="symptom-duration" required>
+                                    <option value="">Select duration...</option>
+                                    <option value="minutes">Few minutes</option>
+                                    <option value="hours">Few hours</option>
+                                    <option value="days">Few days</option>
+                                    <option value="weeks">Few weeks</option>
+                                    <option value="months">Longer than a month</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-search"></i> Analyze Symptoms
+                        </button>
+                    </form>
+                    
+                    <div id="symptom-response" style="display: none; margin-top: 30px;">
+                        <h4><i class="fas fa-stethoscope"></i> Analysis Result</h4>
+                        <div id="symptom-content" style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 10px;">
+                            <!-- Symptom analysis will appear here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- History Tab -->
+            <div id="history" class="tab-content">
+                <div class="card">
+                    <h3><i class="fas fa-history"></i> Wellness History</h3>
+                    
+                    <div class="grid-3" style="margin-bottom: 30px;">
+                        <div class="stat-card">
+                            <div class="stat-number">156</div>
+                            <div class="stat-label">Total Entries</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">23</div>
+                            <div class="stat-label">Days Active</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">8.5</div>
+                            <div class="stat-label">Avg Sleep Hours</div>
+                        </div>
+                    </div>
+                    
+                    <h4>Recent Activities</h4>
+                    <table class="history-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Habit</th>
+                                <th>Value</th>
+                                <th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Today, 2:30 PM</td>
+                                <td><i class="fas fa-bed" style="color: #667eea;"></i> Sleep</td>
+                                <td>8 hours</td>
+                                <td>Good rest</td>
+                            </tr>
+                            <tr>
+                                <td>Today, 11:00 AM</td>
+                                <td><i class="fas fa-tint" style="color: #17a2b8;"></i> Water</td>
+                                <td>2.5 liters</td>
+                                <td>Staying hydrated</td>
+                            </tr>
+                            <tr>
+                                <td>Yesterday, 6:30 PM</td>
+                                <td><i class="fas fa-dumbbell" style="color: #28a745;"></i> Exercise</td>
+                                <td>45 minutes</td>
+                                <td>Morning run</td>
+                            </tr>
+                            <tr>
+                                <td>Yesterday, 3:00 PM</td>
+                                <td><i class="fas fa-smile" style="color: #ffc107;"></i> Mood</td>
+                                <td>8/10</td>
+                                <td>Feeling great!</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Footer -->
+        <footer style="text-align: center; margin-top: 50px; padding: 30px; color: #666;">
+            <p><i class="fas fa-heart" style="color: #e74c3c;"></i> Made with love for better health and well-being</p>
+            <p style="font-size: 0.9rem; margin-top: 10px;">Supporting UN Sustainable Development Goal 3 • Privacy-first design</p>
+        </footer>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container"></div>
+
+    <!-- Include JavaScript -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
