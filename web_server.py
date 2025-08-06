@@ -35,6 +35,16 @@ def index():
     """Serve the main dashboard"""
     return render_template('index.html')
 
+@app.route('/health')
+def health_check():
+    """Health check endpoint for deployment monitoring"""
+    return jsonify({
+        'status': 'healthy',
+        'service': 'AI Wellness Assistant',
+        'version': '1.0.0',
+        'timestamp': datetime.now().isoformat()
+    })
+
 @app.route('/api/track', methods=['POST'])
 def track_habit():
     """API endpoint to track a habit"""
@@ -190,8 +200,19 @@ if __name__ == '__main__':
     Path('frontend/static/css').mkdir(parents=True, exist_ok=True)
     Path('frontend/static/js').mkdir(parents=True, exist_ok=True)
     
-    print("🌟 AI Wellness Assistant Web Server")
-    print("🚀 Starting server at http://localhost:5000")
-    print("📊 Web dashboard available at http://localhost:5000")
+    import os
     
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    # Check if running in production
+    is_production = os.getenv('FLASK_ENV') == 'production'
+    port = int(os.getenv('PORT', 5000))
+    
+    print("🌟 AI Wellness Assistant Web Server")
+    print(f"🚀 Starting server at http://localhost:{port}")
+    print("📊 Web dashboard available at http://localhost:{port}")
+    
+    if is_production:
+        print("🔒 Running in production mode")
+        app.run(host='0.0.0.0', port=port, debug=False)
+    else:
+        print("🛠️  Running in development mode")
+        app.run(debug=True, host='0.0.0.0', port=port)
