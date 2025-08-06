@@ -96,21 +96,56 @@ chmod +x deploy.sh
 
 ---
 
-## 🤖 **Option 5: GitHub Actions (Automated)**
+## 🤖 **Option 5: GitHub Actions (Automated CI/CD)**
 
 Your repository is already configured with GitHub Actions! 
 
 **What happens automatically:**
 - ✅ Tests run on every push
 - ✅ Docker image builds and tests
-- ✅ Deploys to Heroku (if configured)
+- ✅ Code quality checks
+- ✅ Deployment summary
+
+**Current Status:** GitHub Actions will run tests and build verification on every push.
 
 **To enable Heroku auto-deployment:**
-1. Go to your GitHub repository settings
-2. Add these secrets:
-   - `HEROKU_API_KEY`: Your Heroku API key
+1. Go to your GitHub repository → Settings → Secrets and variables → Actions
+2. Add these repository secrets:
+   - `HEROKU_API_KEY`: Your Heroku API key (get from Heroku dashboard)
    - `HEROKU_APP_NAME`: Your Heroku app name
    - `HEROKU_EMAIL`: Your Heroku email
+
+**Manual GitHub Deployment Options:**
+
+### 📄 GitHub Pages (Documentation Site)
+1. Go to repository Settings → Pages
+2. Enable GitHub Pages from Actions
+3. Run the "Deploy to GitHub Pages" workflow
+4. Your documentation will be available at: `https://yourusername.github.io/Ai-agent`
+
+### 🔧 Fix GitHub Actions Issues
+If you see "Run failed" in GitHub Actions:
+1. Check the Actions tab in your repository
+2. Look at the failed job logs
+3. Common fixes:
+   - Dependencies: Update `requirements.txt`
+   - Python version: Check compatibility
+   - Secrets: Add required Heroku secrets (if deploying to Heroku)
+
+---
+
+## 🌐 **Option 6: GitHub Codespaces (Cloud Development)**
+
+### Quick Cloud Setup
+1. Go to your GitHub repository
+2. Click "Code" → "Codespaces" → "Create codespace"
+3. Wait for environment to load
+4. Run in the terminal:
+```bash
+pip install -r requirements.txt
+python start.py
+```
+5. Access via the forwarded port (usually port 5000)
 
 ---
 
@@ -173,10 +208,31 @@ Your application includes a health check endpoint:
 
 ## 🆘 **Need Help?**
 
+### GitHub Actions Troubleshooting
+**Problem**: "Run failed: Deploy AI Wellness Assistant"
+**Solutions**:
+1. **Check the Actions tab** in your GitHub repository
+2. **View the failed job logs** to see specific errors
+3. **Common fixes**:
+   - Missing dependencies: The workflow will install them automatically
+   - Python import errors: Check if all required files are committed
+   - Heroku deployment fails: Add the required secrets or disable Heroku deployment
+
+**Problem**: GitHub Actions shows import errors
+**Solution**: 
+```bash
+# Ensure all files are committed
+git add .
+git commit -m "Fix missing files"
+git push origin main
+```
+
+### General Help
 - **Check logs**: Application includes detailed logging
 - **Health endpoint**: Monitor at `/health`
 - **Documentation**: See `DEPLOYMENT.md` for detailed instructions
 - **Issues**: Create GitHub issues for problems
+- **GitHub Actions**: Check the "Actions" tab in your repository for build status
 
 ---
 
